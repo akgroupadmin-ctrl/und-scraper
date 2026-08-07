@@ -1,1 +1,30 @@
+name: UND Scraper
 
+on:
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install packages
+        run: |
+          pip install requests pandas beautifulsoup4 openpyxl lxml tqdm
+
+      - name: Run scraper
+        run: |
+          python und_scraper.py
+
+      - name: Upload Excel
+        uses: actions/upload-artifact@v4
+        with:
+          name: und_companies
+          path: und_companies.xlsx
