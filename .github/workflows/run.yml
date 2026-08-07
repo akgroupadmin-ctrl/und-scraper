@@ -18,16 +18,17 @@ jobs:
       - name: Install packages
         run: |
           python -m pip install --upgrade pip
-          pip install requests pandas beautifulsoup4 openpyxl lxml tqdm playwright
+          pip install playwright
           python -m playwright install chromium
-          
 
-      - name: Run scraper
+      - name: Dump page
         run: |
-          python und_scraper.py
+          python playwright_dump.py
 
-      - name: Upload Excel
+      - name: Upload debug files
         uses: actions/upload-artifact@v4
         with:
-          name: und_companies
-          path: und_companies.xlsx
+          name: und_debug
+          path: |
+            page.html
+            page.png
