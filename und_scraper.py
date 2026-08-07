@@ -51,10 +51,10 @@ def parse_company(html, company_id):
     soup = BeautifulSoup(html, "lxml")
 
     company = ""
-    h = soup.find(["h1", "h2", "h3"])
+    title = soup.select_one(".company-detail-logo-block-title .block-title")
 
-    if h:
-        company = clean(h.get_text())
+    if title:
+        company = clean(title.get_text())
 
     address = ""
     city = ""
