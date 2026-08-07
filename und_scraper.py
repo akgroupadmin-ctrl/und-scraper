@@ -62,17 +62,17 @@ def parse_company(html, company_id):
     phone = ""
     website = ""
 
-    rows = soup.find_all("tr")
+    rows = soup.select("table.table-striped tr")
 
     for row in rows:
 
-        cols = row.find_all(["td", "th"])
+        cols = row.find_all("td")
 
-        if len(cols) < 2:
+        if len(cols) != 3:
             continue
 
         key = clean(cols[0].get_text())
-        value = clean(cols[1].get_text())
+        value = clean(cols[2].get_text())
 
         if "Adres" in key:
             address = value
@@ -91,7 +91,7 @@ def parse_company(html, company_id):
             phone = value
 
         elif "Website" in key:
-            link = cols[1].find("a")
+            link = cols[2].find("a")
 
             if link:
                 website = link.get("href", "").strip()
