@@ -1,8 +1,6 @@
 from playwright.sync_api import sync_playwright
 
-
 URL = "https://www.und.org.tr/firma-bilgileri/10459"
-
 
 with sync_playwright() as p:
 
@@ -10,7 +8,9 @@ with sync_playwright() as p:
         headless=True
     )
 
-    page = browser.new_page()
+    page = browser.new_page(
+        viewport={"width": 1600, "height": 3000}
+    )
 
     page.goto(
         URL,
@@ -18,12 +18,13 @@ with sync_playwright() as p:
         timeout=60000
     )
 
-    page.screenshot(path="page.png", full_page=True)
-
-    html = page.content()
+    page.screenshot(
+        path="page.png",
+        full_page=True
+    )
 
     with open("page.html", "w", encoding="utf-8") as f:
-        f.write(html)
+        f.write(page.content())
 
     browser.close()
 
